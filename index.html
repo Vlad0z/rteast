@@ -1,0 +1,1509 @@
+<!DOCTYPE html>
+<!-- saved from url=(0051)file:///C:/Users/waffl/Desktop/egrd-main/index.html -->
+<html lang="ru"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Игровой портал</title>
+    <style>
+        @font-face {
+            font-family: 'Intro';
+            src: url('intro.otf') format('opentype');
+        }
+
+        body {
+            background: url('fon.png') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+            font-family: 'Intro', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            padding-top: 60px;
+            padding-bottom: 50px;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            scroll-behavior: smooth;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            z-index: 10;
+            width: 100%;
+            padding: 10px 20px;
+            background-color: #333;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            font-family: 'Intro', Arial, sans-serif;
+            box-sizing: border-box;
+            font-size: 24px;
+        }
+
+        header img {
+            height: 20px;
+            width: 20px;
+            margin-right: 10px;
+            border-radius: 50%;
+        }
+
+        }
+
+        .language-selection {
+            margin: 0 10px;
+            width: 70px;
+            height: 70px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            transition: transform 0.2s;
+        }
+
+        .language-option:hover {
+            transform: scale(1.1);
+        }
+        .tab {
+            flex: auto;
+            align-content: stretch;
+            position: fixed;
+            bottom: 0;
+            z-index: 10;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            background-color: #333;
+            border-radius: 40px;
+            align-items: stretch;
+        }
+
+        .tab button {
+            background-color: inherit;
+            flex: 1 0 auto;
+            margin: 0 10px;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 20px;
+            transition: 0.3s;
+            color: #fff;
+            text-align: center;
+            border-radius: 50px;
+            font-size: 16px;
+            font-family: 'Intro', Arial, sans-serif;
+        }
+
+
+        .tab button:hover {
+            background-color: #555;
+            transform: translateY(-2px);
+        }
+
+        .tab button.active {
+            background-color: #666;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .tabcontent {
+            display: none;
+            overflow: auto;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            border-top: none;
+            overflow: auto;
+            flex-grow: 1;
+            margin-top: 0px;
+            margin-bottom: 50px;
+        }
+
+.tabcontent.active {
+    display: flex;
+    opacity: 1;
+    visibility: visible;
+    z-index: 1; /* повысить z-index для активного контента */
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            width: 100%;
+            justify-content: space-around;
+        }
+        .game {
+            flex: 1 1 40%;
+            max-width: 209px;
+            margin: 10px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .game img:not(.secretimg) {
+            width: 100%;
+            height: auto;
+            max-height: 200px;
+            max-width: 200px;
+            border-radius: 50px;
+            box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.8),
+                        0px 0px 30px rgba(173, 216, 230, 0.6);
+        }
+
+        @media (max-width: 400px) {
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        .game {
+            flex: 0 1 48%;
+            max-width: 48%;
+            margin: 1% 1%;
+            padding-top: 10px;
+        }
+
+        .game img:not(.secretimg) {
+            height: 140px !important;
+            width: auto !important;
+            max-width: 100% !important;
+            border-radius: 50px !important;
+            box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.8),
+                    0px 0px 30px rgba(173, 216, 230, 0.6);
+        }
+        }
+        .game-info {
+            width: 100%;
+            margin-top: 10px;
+            font-family: 'Intro', Arial, sans-serif;
+        }
+        .game h3 {
+            font-size: 18px;
+            margin: 5px 0;
+        }
+        .game button {
+            font-size: 16px;
+            font-weight: bold;
+            padding: 12px 24px;
+            width: 130px;
+            border-radius: 25px;
+            background: linear-gradient(145deg, #4CAF50 0%, #087f23 100%);
+            box-shadow: 0 6px #065f18, 0 -6px #4CAF50 inset;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            outline: none;
+            font-family: 'Intro', Arial, sans-serif;
+        }
+
+        .game button:hover {
+            background: linear-gradient(145deg, #087f23 0%, #4CAF50 100%);
+            box-shadow: 0 8px #065f18, 0 -6px #4CAF50 inset;
+            transform: translateY(-3px);
+        }
+
+        .game button:active {
+            box-shadow: 0 3px #065f18, 0 -3px #4CAF50 inset;
+            transform: translateY(2px);
+        }
+        canvas#particleCanvas {
+            position: fixed; /* Фиксируем канвас на фоне */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+        .about-icon img {
+            width: 28px;
+            height: 28px;
+        }
+
+        .games-icon img {
+            width: 38px;
+            height: 38px;
+        }
+
+        .contact-icon img {
+            width: 38px;
+            height: 38px;
+        }
+        .secret-game {
+            margin-top: 50px;
+            margin-bottom: 100px;
+        }
+
+        .secretimg {
+            width: 100%;
+            height: auto;
+            border-radius: 50px;
+            box-shadow:
+                0 0 20px rgba(255, 0, 0, 0.8),
+                0 0 20px rgba(255, 127, 0, 0.8),
+                0 0 20px rgba(255, 255, 0, 0.8),
+                0 0 20px rgba(127, 255, 0, 0.8),
+                0 0 20px rgba(0, 255, 0, 0.8),
+                0 0 20px rgba(0, 255, 127, 0.8),
+                0 0 20px rgba(0, 255, 255, 0.8),
+                0 0 20px rgba(0, 127, 255, 0.8),
+                0 0 20px rgba(0, 0, 255, 0.8),
+                0 0 20px rgba(127, 0, 255, 0.8),
+                0 0 20px rgba(255, 0, 255, 0.8),
+                0 0 20px rgba(255, 0, 127, 0.8);
+            animation: rainbowGlow 5s linear infinite;
+            filter: hue-rotate(0deg); /* Initial filter state */
+        }
+
+        @keyframes rainbowGlow {
+            0%, 100% {
+                filter: hue-rotate(0deg);
+            }
+            50% {
+                filter: hue-rotate(360deg);
+            }
+        }
+
+        .secret-game .game-info h3 {
+            font-family: 'Intro', Arial, sans-serif;
+            text-align: center;
+            color: white;
+            font-size: 24px;
+        }
+
+        @keyframes Rainbow {
+            0% {background-position: 0% 50%;}
+            50% {background-position: 100% 50%;}
+            100% {background-position: 0% 50%;}
+        }
+        .about-gif {
+            margin-top: 30px;
+            width: 300px;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.8),
+                        0 0 30px rgba(0, 255, 255, 0.8),
+                        0 0 60px rgba(0, 128, 255, 0.8);
+        }
+        .about-text {
+            position: relative;
+            margin: 20px;
+            padding: 10px;
+            width: 300px;
+            margin-top: 15px;
+            padding: 10px;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .about-text h2 {
+            font-size: 34px;
+            margin-bottom: 15px;
+        }
+
+        .typing-text {
+            font-size: 20px;
+            color: white;
+            background: linear-gradient(to right, #6a3093, #a044ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-top: 0px;
+            display: block;
+            white-space: nowrap;
+            overflow: hidden;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        .typing-text::after {
+            content: "\00a0";
+            display: inline-block;
+            width: 0;
+            height: 24px;
+        }
+        .about-button {
+            min-height: 25px;
+            display: inline-block;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 12px 24px;
+            width: 300px;
+            border-radius: 25px;
+            background: linear-gradient(145deg, #3a8ccf 0%, #00397a 100%);
+            box-shadow: 0 6px #082d53, 0 -6px #3a8ccf inset;
+            color: white;
+            cursor: pointer;
+            margin-top: 5px;
+            margin-left: 130px;
+            display: block;
+            transition: all 0.2s ease;
+            outline: none;
+            font-family: 'Intro', Arial, sans-serif;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .about-button:hover {
+            background: linear-gradient(145deg, #00397a 0%, #3a8ccf 100%);
+            box-shadow: 0 8px #082d53, 0 -6px #3a8ccf inset;
+            transform: translateY(-3px) translateX(-50%);
+        }
+
+        .about-button:active {
+            box-shadow: 0 3px #082d53, 0 -3px #3a8ccf inset;
+            transform: translateY(2px) translateX(-50%);
+        }
+         .title {
+            margin-top: 100px;
+            margin-left: 18px;
+            font-size: 28px;
+            margin-bottom: 10px;
+            color: #FFF;
+            font-weight: bold;
+        }
+
+        .image-container img {
+            margin-top: 20px;
+            margin-left: 45px
+            width: 190px;
+            height: 140px;
+            border-radius: 50%;
+            box-shadow: 0px 0px 15px 5px rgba(255, 255, 255, 0.8);
+        }
+
+        .device-info {
+            margin: 20px 0;
+            font-size: 16px;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            transform: translateY(-20px);
+            opacity: 0;
+        }
+
+        .device-info.visible {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .detect-button, .start-button {
+            font-size: 16px;
+            font-weight: bold;
+            padding: 12px 24px;
+            width: 180px;
+            border-radius: 25px;
+            background: linear-gradient(145deg, #4CAF50 0%, #087f23 100%);
+            box-shadow: 0 6px #065f18, 0 -6px #4CAF50 inset;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            outline: none;
+            font-family: 'Intro', Arial, sans-serif;
+            display: block;
+            margin: 10px auto;
+        }
+
+        .detect-button:hover, .start-button:hover {
+            background: linear-gradient(145deg, #087f23 0%, #4CAF50 100%);
+            box-shadow: 0 8px #065f18, 0 -6px #4CAF50 inset;
+            transform: translateY(-3px);
+        }
+
+        .detect-button:active, .start-button:active {
+            box-shadow: 0 3px #065f18, 0 -3px #4CAF50 inset;
+            transform: translateY(2px);
+        }
+       .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            opacity: 0;
+            transform: scale(0.95);
+            visibility: hidden;
+        }
+
+        .modal.show {
+            display: block;
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 70%;
+            height: 30%;
+            position: relative;
+            top: 50%;
+            transform: translateY(-60%);
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+            border-radius: 25px;
+            text-align: center;
+        }
+
+        .modal-content h2 {
+            color: black;
+            font-size: 24px;
+            margin: 10px 0;
+        }
+         .close-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: transparent;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #aaa;
+        }
+
+        .close-button:hover {
+            color: #f00;
+        }
+         .carousel {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin: auto;
+        }
+
+        .slides {
+            display: flex;
+            width: 100%;
+            overflow: hidden;
+            transition: transform 0.5s ease;
+        }
+
+        .slide img {
+            width: 50%;
+            border-radius: 5px;
+        }
+
+          .prev, .next {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            width: auto;
+            margin-top: -14px;
+            padding: 16px;
+            color: black;
+            font-weight: bold;
+            font-size: 18px;
+            transition: 0.6s ease;
+            border-radius: 3px;
+            user-select: none;
+            background-color: rgba(0,0,0,0.0);
+        }
+
+        .prev {
+            left: 10px;
+            border-radius: 3px 0 0 3px;
+        }
+
+        .next {
+            right: 10px;
+            border-radius: 0 3px 3px 0;
+        }
+
+        .prev:hover, .next:hover {
+            background-color: rgba(0,0,0,0.0);
+        }
+
+        .dots-container {
+            text-align: center;
+            padding: 10px;
+            background: #white;
+        }
+
+        .dot {
+            cursor: pointer;
+            height: 15px;
+            width: 15px;
+            margin: 0 2px;
+            background-color: #bbb;
+            border-radius: 50%;
+            display: inline-block;
+            transition: background-color 0.6s ease;
+        }
+
+        .dot.active, .dot:hover {
+            background-color: #717171;
+        }
+         .loader {
+            border: 16px solid transparent;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            animation: spin 2s linear infinite, extend 3s forwards;
+            margin-left: 45px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes extend {
+            0% { border-top: 4px solid #3498db; }
+            25% { border-top: 16px solid #3498db; border-right: 4px solid #3498db; }
+            50% { border-top: 16px solid #3498db; border-right: 16px solid #3498db; border-bottom: 4px solid #3498db; }
+            75% { border-top: 16px solid #3498db; border-right: 16px solid #3498db; border-bottom: 16px solid #3498db; border-left: 4px solid #3498db; }
+            100% { border: 16px solid #3498db; }
+        }
+        .modal-mini {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            align-items: center;
+            justify-content: center;
+            display: flex;
+        }
+        .modal-content-mini {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        .close-button-mini {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            border: none;
+            background: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        .close-button-mini:hover {
+            color: #f00; /* Красный цвет при наведении */
+        }
+    .telegram-button {
+    display: flex;
+    justify-content: center; /* Центрирование кнопки по горизонтали */
+    align-items: center;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 12px 24px;
+    width: 300px;
+    border-radius: 25px;
+    background: linear-gradient(145deg, #3a8ccf 0%, #00397a 100%);
+    box-shadow: 0 6px #082d53, 0 -6px #3a8ccf inset;
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    outline: none;
+    font-family: 'Intro', Arial, sans-serif;
+    margin: 20px auto; /* Отступы сверху и снизу и центрирование по горизонтали */
+}
+
+.telegram-button:hover {
+    background: linear-gradient(145deg, #00397a 0%, #3a8ccf 100%);
+    box-shadow: 0 8px #082d53, 0 -6px #3a8ccf inset;
+    transform: translateY(-3px);
+}
+
+.telegram-button:active {
+    box-shadow: 0 3px #082d53, 0 -3px #3a8ccf inset;
+    transform: translateY(2px);
+}
+
+    body {
+      background: #111;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
+
+.stars {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -2; /* уменьшите z-index, чтобы фон не перекрывал содержимое */
+}
+
+
+    .star {
+      position: absolute;
+      background: #fff;
+      border-radius: 50%;
+      animation: twinkle 1s infinite alternate;
+    }
+
+    @keyframes twinkle {
+      from { opacity: 0.2; }
+      to { opacity: 1; }
+    }
+
+    .language-selection {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(5, auto);
+      grid-template-rows: repeat(2, auto);
+      gap: 5px;
+      justify-content: center;
+      padding: 10px;
+      background: rgba(0, 0, 0, 0.25);
+      backdrop-filter: blur(10px);
+    }
+
+
+
+  </style>
+</head>
+<body>
+  <!-- Звездный фон -->
+  <div class="stars" id="stars"><div class="star" style="left: 27.8816%; top: 14.8818%; width: 0.0082156px; height: 0.0082156px; animation-delay: 1.18177s;"></div><div class="star" style="left: 86.4332%; top: 94.7455%; width: 5.84378px; height: 5.84378px; animation-delay: 0.407612s;"></div><div class="star" style="left: 27.7218%; top: 56.3727%; width: 1.17698px; height: 1.17698px; animation-delay: 0.135771s;"></div><div class="star" style="left: 71.0362%; top: 83.5747%; width: 0.810992px; height: 0.810992px; animation-delay: 1.23014s;"></div><div class="star" style="left: 95.0023%; top: 6.5087%; width: 0.703114px; height: 0.703114px; animation-delay: 0.901581s;"></div><div class="star" style="left: 91.2857%; top: 95.0168%; width: 4.72234px; height: 4.72234px; animation-delay: 0.846639s;"></div><div class="star" style="left: 8.05961%; top: 7.98487%; width: 4.15686px; height: 4.15686px; animation-delay: 1.50207s;"></div><div class="star" style="left: 19.9956%; top: 36.4618%; width: 4.70761px; height: 4.70761px; animation-delay: 0.223652s;"></div><div class="star" style="left: 51.3539%; top: 85.7195%; width: 4.22652px; height: 4.22652px; animation-delay: 0.975943s;"></div><div class="star" style="left: 3.02557%; top: 1.61951%; width: 2.84552px; height: 2.84552px; animation-delay: 1.80036s;"></div><div class="star" style="left: 69.6996%; top: 13.0357%; width: 1.49844px; height: 1.49844px; animation-delay: 0.881571s;"></div><div class="star" style="left: 56.399%; top: 6.5734%; width: 1.98582px; height: 1.98582px; animation-delay: 0.0427135s;"></div><div class="star" style="left: 55.6493%; top: 44.7524%; width: 0.329513px; height: 0.329513px; animation-delay: 1.57824s;"></div><div class="star" style="left: 20.1943%; top: 60.1844%; width: 2.77845px; height: 2.77845px; animation-delay: 0.849083s;"></div><div class="star" style="left: 35.2512%; top: 5.26455%; width: 0.934089px; height: 0.934089px; animation-delay: 0.812216s;"></div><div class="star" style="left: 42.2675%; top: 56.5673%; width: 3.56966px; height: 3.56966px; animation-delay: 1.7506s;"></div><div class="star" style="left: 31.8137%; top: 25.3232%; width: 3.13259px; height: 3.13259px; animation-delay: 0.238361s;"></div><div class="star" style="left: 77.654%; top: 97.4776%; width: 1.52162px; height: 1.52162px; animation-delay: 1.10288s;"></div><div class="star" style="left: 57.5918%; top: 84.0566%; width: 0.697668px; height: 0.697668px; animation-delay: 0.345294s;"></div><div class="star" style="left: 59.8399%; top: 83.3999%; width: 4.27769px; height: 4.27769px; animation-delay: 1.50989s;"></div><div class="star" style="left: 5.88786%; top: 78.1099%; width: 2.06602px; height: 2.06602px; animation-delay: 1.6854s;"></div><div class="star" style="left: 29.7891%; top: 88.082%; width: 3.34877px; height: 3.34877px; animation-delay: 0.563489s;"></div><div class="star" style="left: 94.0619%; top: 77.5488%; width: 2.00588px; height: 2.00588px; animation-delay: 0.985394s;"></div><div class="star" style="left: 87.9481%; top: 80.1722%; width: 0.308945px; height: 0.308945px; animation-delay: 0.266429s;"></div><div class="star" style="left: 96.9803%; top: 23.2602%; width: 1.56951px; height: 1.56951px; animation-delay: 1.56209s;"></div><div class="star" style="left: 70.5169%; top: 23.5421%; width: 0.96432px; height: 0.96432px; animation-delay: 1.33347s;"></div><div class="star" style="left: 0.960404%; top: 46.7679%; width: 1.531px; height: 1.531px; animation-delay: 0.0702804s;"></div><div class="star" style="left: 37.4021%; top: 60.7863%; width: 1.11414px; height: 1.11414px; animation-delay: 0.532394s;"></div><div class="star" style="left: 83.954%; top: 54.4587%; width: 4.94948px; height: 4.94948px; animation-delay: 1.97777s;"></div><div class="star" style="left: 73.4106%; top: 85.8441%; width: 5.61568px; height: 5.61568px; animation-delay: 0.484599s;"></div><div class="star" style="left: 67.168%; top: 12.4154%; width: 5.29524px; height: 5.29524px; animation-delay: 1.4962s;"></div><div class="star" style="left: 46.7562%; top: 25.2634%; width: 1.68413px; height: 1.68413px; animation-delay: 1.08067s;"></div><div class="star" style="left: 85.2828%; top: 28.5048%; width: 5.51177px; height: 5.51177px; animation-delay: 1.85002s;"></div><div class="star" style="left: 44.7318%; top: 51.2249%; width: 1.47473px; height: 1.47473px; animation-delay: 1.42773s;"></div><div class="star" style="left: 61.2016%; top: 71.2218%; width: 4.82114px; height: 4.82114px; animation-delay: 0.0581535s;"></div><div class="star" style="left: 2.34532%; top: 72.2503%; width: 4.33533px; height: 4.33533px; animation-delay: 1.06371s;"></div><div class="star" style="left: 82.6133%; top: 84.6695%; width: 1.88448px; height: 1.88448px; animation-delay: 1.90051s;"></div><div class="star" style="left: 61.6457%; top: 73.3371%; width: 2.93246px; height: 2.93246px; animation-delay: 1.00508s;"></div><div class="star" style="left: 72.0153%; top: 19.1107%; width: 2.54544px; height: 2.54544px; animation-delay: 0.228593s;"></div><div class="star" style="left: 49.3509%; top: 72.4489%; width: 4.74795px; height: 4.74795px; animation-delay: 1.23234s;"></div><div class="star" style="left: 29.6289%; top: 69.1464%; width: 4.52438px; height: 4.52438px; animation-delay: 0.584332s;"></div><div class="star" style="left: 80.061%; top: 13.4059%; width: 4.8949px; height: 4.8949px; animation-delay: 0.251622s;"></div><div class="star" style="left: 42.1518%; top: 23.3242%; width: 1.32104px; height: 1.32104px; animation-delay: 1.59508s;"></div><div class="star" style="left: 55.1344%; top: 88.9034%; width: 1.93941px; height: 1.93941px; animation-delay: 0.817455s;"></div><div class="star" style="left: 40.1297%; top: 7.78914%; width: 1.21956px; height: 1.21956px; animation-delay: 0.534578s;"></div><div class="star" style="left: 93.7506%; top: 35.3904%; width: 1.70155px; height: 1.70155px; animation-delay: 0.215578s;"></div><div class="star" style="left: 85.0754%; top: 98.6309%; width: 4.96196px; height: 4.96196px; animation-delay: 1.66753s;"></div><div class="star" style="left: 45.9823%; top: 10.4082%; width: 4.55325px; height: 4.55325px; animation-delay: 1.5569s;"></div><div class="star" style="left: 96.6594%; top: 27.8599%; width: 3.0468px; height: 3.0468px; animation-delay: 0.753937s;"></div><div class="star" style="left: 2.16439%; top: 3.50318%; width: 4.62179px; height: 4.62179px; animation-delay: 1.12912s;"></div><div class="star" style="left: 4.1998%; top: 56.0952%; width: 3.86475px; height: 3.86475px; animation-delay: 0.93899s;"></div><div class="star" style="left: 11.5406%; top: 82.33%; width: 2.63029px; height: 2.63029px; animation-delay: 1.54601s;"></div><div class="star" style="left: 75.5493%; top: 39.0863%; width: 1.16942px; height: 1.16942px; animation-delay: 0.434738s;"></div><div class="star" style="left: 44.1664%; top: 48.057%; width: 5.03402px; height: 5.03402px; animation-delay: 0.0405583s;"></div><div class="star" style="left: 91.3886%; top: 78.0288%; width: 4.45798px; height: 4.45798px; animation-delay: 0.173421s;"></div><div class="star" style="left: 55.4019%; top: 49.0755%; width: 3.37072px; height: 3.37072px; animation-delay: 0.152516s;"></div><div class="star" style="left: 9.30161%; top: 47.5719%; width: 0.808252px; height: 0.808252px; animation-delay: 1.70077s;"></div><div class="star" style="left: 84.7172%; top: 21.548%; width: 3.03955px; height: 3.03955px; animation-delay: 0.385239s;"></div><div class="star" style="left: 79.188%; top: 16.5086%; width: 0.622885px; height: 0.622885px; animation-delay: 1.46618s;"></div><div class="star" style="left: 73.2844%; top: 40.2639%; width: 4.81716px; height: 4.81716px; animation-delay: 1.48967s;"></div><div class="star" style="left: 24.1103%; top: 50.3488%; width: 1.68048px; height: 1.68048px; animation-delay: 0.935255s;"></div><div class="star" style="left: 66.9593%; top: 44.9793%; width: 3.65594px; height: 3.65594px; animation-delay: 0.975633s;"></div><div class="star" style="left: 55.741%; top: 51.5875%; width: 0.783026px; height: 0.783026px; animation-delay: 0.0366844s;"></div><div class="star" style="left: 78.889%; top: 47.4411%; width: 4.55015px; height: 4.55015px; animation-delay: 0.636849s;"></div><div class="star" style="left: 97.8293%; top: 48.7585%; width: 2.56724px; height: 2.56724px; animation-delay: 1.40234s;"></div><div class="star" style="left: 69.8406%; top: 72.1648%; width: 5.19389px; height: 5.19389px; animation-delay: 1.73613s;"></div><div class="star" style="left: 43.148%; top: 14.6975%; width: 2.51725px; height: 2.51725px; animation-delay: 1.08023s;"></div><div class="star" style="left: 90.4463%; top: 13.0607%; width: 4.29817px; height: 4.29817px; animation-delay: 0.762288s;"></div><div class="star" style="left: 83.8247%; top: 88.0163%; width: 2.9625px; height: 2.9625px; animation-delay: 0.582226s;"></div><div class="star" style="left: 92.0477%; top: 72.9899%; width: 2.17008px; height: 2.17008px; animation-delay: 0.383365s;"></div><div class="star" style="left: 77.0545%; top: 82.1117%; width: 5.5831px; height: 5.5831px; animation-delay: 0.401997s;"></div><div class="star" style="left: 49.3893%; top: 63.9691%; width: 2.61433px; height: 2.61433px; animation-delay: 1.09901s;"></div><div class="star" style="left: 51.3536%; top: 56.1624%; width: 5.81922px; height: 5.81922px; animation-delay: 1.07627s;"></div><div class="star" style="left: 4.18954%; top: 50.9728%; width: 4.19176px; height: 4.19176px; animation-delay: 1.14651s;"></div><div class="star" style="left: 17.1464%; top: 36.972%; width: 2.17007px; height: 2.17007px; animation-delay: 0.893832s;"></div><div class="star" style="left: 12.9963%; top: 3.51623%; width: 1.99577px; height: 1.99577px; animation-delay: 0.0734583s;"></div><div class="star" style="left: 14.3257%; top: 74.9712%; width: 5.17542px; height: 5.17542px; animation-delay: 0.303636s;"></div><div class="star" style="left: 72.8319%; top: 95.7122%; width: 2.56954px; height: 2.56954px; animation-delay: 0.508879s;"></div><div class="star" style="left: 29.5471%; top: 21.5625%; width: 4.86604px; height: 4.86604px; animation-delay: 1.92687s;"></div><div class="star" style="left: 0.814834%; top: 66.267%; width: 5.26069px; height: 5.26069px; animation-delay: 1.72117s;"></div><div class="star" style="left: 81.4348%; top: 35.2301%; width: 2.38882px; height: 2.38882px; animation-delay: 0.17136s;"></div><div class="star" style="left: 67.9088%; top: 14.7917%; width: 2.3918px; height: 2.3918px; animation-delay: 1.43528s;"></div><div class="star" style="left: 14.4153%; top: 22.7742%; width: 4.90215px; height: 4.90215px; animation-delay: 0.0455291s;"></div><div class="star" style="left: 19.1942%; top: 32.8183%; width: 5.27205px; height: 5.27205px; animation-delay: 0.820274s;"></div><div class="star" style="left: 67.6393%; top: 73.5891%; width: 0.894151px; height: 0.894151px; animation-delay: 0.936584s;"></div><div class="star" style="left: 3.80534%; top: 52.4057%; width: 4.52616px; height: 4.52616px; animation-delay: 0.579496s;"></div><div class="star" style="left: 86.1894%; top: 48.4419%; width: 3.00977px; height: 3.00977px; animation-delay: 0.439712s;"></div><div class="star" style="left: 52.3227%; top: 36.5354%; width: 5.65619px; height: 5.65619px; animation-delay: 1.62799s;"></div><div class="star" style="left: 99.6375%; top: 6.01628%; width: 2.66655px; height: 2.66655px; animation-delay: 0.987484s;"></div><div class="star" style="left: 38.4128%; top: 18.8905%; width: 2.9531px; height: 2.9531px; animation-delay: 0.684153s;"></div><div class="star" style="left: 41.8656%; top: 28.0787%; width: 1.27598px; height: 1.27598px; animation-delay: 0.343542s;"></div><div class="star" style="left: 35.1978%; top: 64.5704%; width: 4.2812px; height: 4.2812px; animation-delay: 0.809472s;"></div><div class="star" style="left: 17.0591%; top: 38.5805%; width: 0.418129px; height: 0.418129px; animation-delay: 1.93637s;"></div><div class="star" style="left: 50.799%; top: 23.1587%; width: 5.04332px; height: 5.04332px; animation-delay: 0.533079s;"></div><div class="star" style="left: 92.022%; top: 34.0839%; width: 1.45475px; height: 1.45475px; animation-delay: 0.271488s;"></div><div class="star" style="left: 4.06518%; top: 79.192%; width: 5.0174px; height: 5.0174px; animation-delay: 1.75622s;"></div><div class="star" style="left: 52.6885%; top: 10.8998%; width: 4.97877px; height: 4.97877px; animation-delay: 0.0640087s;"></div><div class="star" style="left: 25.2272%; top: 57.8188%; width: 4.77308px; height: 4.77308px; animation-delay: 1.16906s;"></div><div class="star" style="left: 64.1202%; top: 37.51%; width: 5.69062px; height: 5.69062px; animation-delay: 1.49826s;"></div><div class="star" style="left: 37.3328%; top: 80.9382%; width: 3.50322px; height: 3.50322px; animation-delay: 1.78012s;"></div><div class="star" style="left: 60.1473%; top: 43.484%; width: 5.07003px; height: 5.07003px; animation-delay: 0.527208s;"></div><div class="star" style="left: 35.0166%; top: 16.1246%; width: 2.35213px; height: 2.35213px; animation-delay: 0.0362688s;"></div><div class="star" style="left: 18.6667%; top: 49.8415%; width: 0.0693628px; height: 0.0693628px; animation-delay: 1.37137s;"></div><div class="star" style="left: 12.8598%; top: 52.2659%; width: 3.05531px; height: 3.05531px; animation-delay: 0.52445s;"></div><div class="star" style="left: 64.8531%; top: 5.80354%; width: 1.04923px; height: 1.04923px; animation-delay: 0.2112s;"></div><div class="star" style="left: 26.4729%; top: 4.31143%; width: 3.33361px; height: 3.33361px; animation-delay: 0.995805s;"></div><div class="star" style="left: 3.98812%; top: 86.2462%; width: 5.73987px; height: 5.73987px; animation-delay: 0.395593s;"></div><div class="star" style="left: 29.1974%; top: 23.7576%; width: 3.29357px; height: 3.29357px; animation-delay: 1.71685s;"></div><div class="star" style="left: 42.2745%; top: 33.2169%; width: 2.65386px; height: 2.65386px; animation-delay: 0.263632s;"></div><div class="star" style="left: 20.2668%; top: 88.155%; width: 5.28403px; height: 5.28403px; animation-delay: 0.911245s;"></div><div class="star" style="left: 76.9091%; top: 73.936%; width: 5.52437px; height: 5.52437px; animation-delay: 0.168063s;"></div><div class="star" style="left: 78.7493%; top: 85.8685%; width: 0.552893px; height: 0.552893px; animation-delay: 0.624007s;"></div><div class="star" style="left: 26.4019%; top: 65.5708%; width: 3.92972px; height: 3.92972px; animation-delay: 0.111835s;"></div><div class="star" style="left: 82.6573%; top: 28.1446%; width: 5.59598px; height: 5.59598px; animation-delay: 1.89975s;"></div><div class="star" style="left: 95.6066%; top: 27.1596%; width: 4.40123px; height: 4.40123px; animation-delay: 0.680964s;"></div><div class="star" style="left: 87.3144%; top: 25.2233%; width: 0.102123px; height: 0.102123px; animation-delay: 1.67811s;"></div><div class="star" style="left: 35.915%; top: 61.8498%; width: 4.73201px; height: 4.73201px; animation-delay: 1.30445s;"></div><div class="star" style="left: 74.2479%; top: 9.64683%; width: 4.69961px; height: 4.69961px; animation-delay: 1.26807s;"></div><div class="star" style="left: 65.0974%; top: 0.699842%; width: 3.91628px; height: 3.91628px; animation-delay: 1.53936s;"></div><div class="star" style="left: 72.0393%; top: 99.2326%; width: 0.101772px; height: 0.101772px; animation-delay: 1.66229s;"></div><div class="star" style="left: 44.9197%; top: 94.3028%; width: 2.26585px; height: 2.26585px; animation-delay: 0.473102s;"></div><div class="star" style="left: 26.4679%; top: 31.6978%; width: 3.37561px; height: 3.37561px; animation-delay: 0.448741s;"></div><div class="star" style="left: 8.55262%; top: 63.2062%; width: 0.658832px; height: 0.658832px; animation-delay: 0.279502s;"></div><div class="star" style="left: 98.8103%; top: 38.7536%; width: 3.48261px; height: 3.48261px; animation-delay: 1.94133s;"></div><div class="star" style="left: 78.4033%; top: 84.6058%; width: 5.5601px; height: 5.5601px; animation-delay: 1.18938s;"></div><div class="star" style="left: 51.5149%; top: 81.4489%; width: 5.77385px; height: 5.77385px; animation-delay: 0.569526s;"></div><div class="star" style="left: 82.0944%; top: 37.3548%; width: 0.897531px; height: 0.897531px; animation-delay: 1.44384s;"></div><div class="star" style="left: 46.102%; top: 94.24%; width: 3.319px; height: 3.319px; animation-delay: 1.44133s;"></div><div class="star" style="left: 1.87356%; top: 66.3295%; width: 4.79951px; height: 4.79951px; animation-delay: 1.85642s;"></div><div class="star" style="left: 40.3647%; top: 6.14018%; width: 3.16873px; height: 3.16873px; animation-delay: 0.0688063s;"></div><div class="star" style="left: 99.4023%; top: 16.3909%; width: 5.8984px; height: 5.8984px; animation-delay: 0.353458s;"></div><div class="star" style="left: 0.516317%; top: 14.0624%; width: 5.92326px; height: 5.92326px; animation-delay: 0.825246s;"></div><div class="star" style="left: 8.18169%; top: 27.0147%; width: 2.23134px; height: 2.23134px; animation-delay: 0.0914986s;"></div><div class="star" style="left: 1.79843%; top: 15.6655%; width: 0.44663px; height: 0.44663px; animation-delay: 1.21311s;"></div><div class="star" style="left: 81.0625%; top: 17.5726%; width: 1.78936px; height: 1.78936px; animation-delay: 0.928693s;"></div><div class="star" style="left: 47.9813%; top: 92.5833%; width: 4.08147px; height: 4.08147px; animation-delay: 0.666972s;"></div><div class="star" style="left: 24.0738%; top: 57.9941%; width: 1.11832px; height: 1.11832px; animation-delay: 0.186019s;"></div><div class="star" style="left: 75.7213%; top: 82.1649%; width: 4.05335px; height: 4.05335px; animation-delay: 0.482798s;"></div><div class="star" style="left: 93.3196%; top: 37.3228%; width: 3.25379px; height: 3.25379px; animation-delay: 0.684202s;"></div><div class="star" style="left: 61.5203%; top: 3.6062%; width: 2.48115px; height: 2.48115px; animation-delay: 0.169608s;"></div><div class="star" style="left: 72.2063%; top: 44.6921%; width: 4.53217px; height: 4.53217px; animation-delay: 1.67227s;"></div><div class="star" style="left: 82.8072%; top: 14.6775%; width: 5.50841px; height: 5.50841px; animation-delay: 1.85111s;"></div><div class="star" style="left: 52.1982%; top: 72.1243%; width: 0.594898px; height: 0.594898px; animation-delay: 0.687466s;"></div><div class="star" style="left: 52.7272%; top: 23.8385%; width: 0.0645852px; height: 0.0645852px; animation-delay: 0.573256s;"></div><div class="star" style="left: 93.0765%; top: 30.7141%; width: 2.78512px; height: 2.78512px; animation-delay: 0.730568s;"></div><div class="star" style="left: 99.9398%; top: 53.0329%; width: 0.537035px; height: 0.537035px; animation-delay: 0.80352s;"></div><div class="star" style="left: 99.51%; top: 53.6732%; width: 1.62876px; height: 1.62876px; animation-delay: 1.66521s;"></div><div class="star" style="left: 62.1707%; top: 1.13719%; width: 5.35639px; height: 5.35639px; animation-delay: 1.00492s;"></div><div class="star" style="left: 37.8259%; top: 50.8498%; width: 1.47785px; height: 1.47785px; animation-delay: 1.58306s;"></div><div class="star" style="left: 13.3011%; top: 65.41%; width: 4.17131px; height: 4.17131px; animation-delay: 0.601674s;"></div><div class="star" style="left: 59.0678%; top: 0.184081%; width: 0.339739px; height: 0.339739px; animation-delay: 0.467212s;"></div><div class="star" style="left: 92.575%; top: 74.5181%; width: 5.12494px; height: 5.12494px; animation-delay: 1.9008s;"></div><div class="star" style="left: 15.7628%; top: 56.9337%; width: 4.48282px; height: 4.48282px; animation-delay: 1.34703s;"></div><div class="star" style="left: 52.533%; top: 52.237%; width: 5.17099px; height: 5.17099px; animation-delay: 1.73004s;"></div><div class="star" style="left: 68.9666%; top: 25.5675%; width: 4.92703px; height: 4.92703px; animation-delay: 1.6604s;"></div><div class="star" style="left: 66.9924%; top: 95.7229%; width: 5.72848px; height: 5.72848px; animation-delay: 0.0449193s;"></div><div class="star" style="left: 15.5621%; top: 62.8918%; width: 0.521102px; height: 0.521102px; animation-delay: 0.166763s;"></div><div class="star" style="left: 20.9285%; top: 68.7696%; width: 5.6673px; height: 5.6673px; animation-delay: 0.891108s;"></div><div class="star" style="left: 40.8592%; top: 84.3665%; width: 3.23898px; height: 3.23898px; animation-delay: 0.891712s;"></div><div class="star" style="left: 4.87301%; top: 48.6199%; width: 4.15384px; height: 4.15384px; animation-delay: 1.69794s;"></div><div class="star" style="left: 29.8618%; top: 2.46042%; width: 0.818751px; height: 0.818751px; animation-delay: 0.624225s;"></div><div class="star" style="left: 96.344%; top: 96.3717%; width: 0.609971px; height: 0.609971px; animation-delay: 0.656285s;"></div><div class="star" style="left: 59.0253%; top: 70.9006%; width: 2.80311px; height: 2.80311px; animation-delay: 1.42936s;"></div><div class="star" style="left: 72.1915%; top: 31.209%; width: 0.890911px; height: 0.890911px; animation-delay: 1.84657s;"></div><div class="star" style="left: 57.4057%; top: 61.6276%; width: 1.37376px; height: 1.37376px; animation-delay: 0.294521s;"></div><div class="star" style="left: 13.8481%; top: 16.1048%; width: 4.24474px; height: 4.24474px; animation-delay: 0.310962s;"></div><div class="star" style="left: 93.4333%; top: 74.1409%; width: 3.4879px; height: 3.4879px; animation-delay: 1.72999s;"></div><div class="star" style="left: 42.0089%; top: 1.13994%; width: 3.15635px; height: 3.15635px; animation-delay: 1.18924s;"></div><div class="star" style="left: 87.0362%; top: 54.6002%; width: 3.2763px; height: 3.2763px; animation-delay: 0.481154s;"></div><div class="star" style="left: 84.7308%; top: 0.77896%; width: 5.73193px; height: 5.73193px; animation-delay: 0.437312s;"></div><div class="star" style="left: 23.1569%; top: 4.73021%; width: 2.19232px; height: 2.19232px; animation-delay: 0.731113s;"></div><div class="star" style="left: 70.0635%; top: 12.9827%; width: 0.353597px; height: 0.353597px; animation-delay: 1.39721s;"></div><div class="star" style="left: 47%; top: 22.3237%; width: 0.305135px; height: 0.305135px; animation-delay: 0.719006s;"></div><div class="star" style="left: 69.5972%; top: 8.61669%; width: 3.6942px; height: 3.6942px; animation-delay: 0.285762s;"></div><div class="star" style="left: 97.0274%; top: 80.7655%; width: 3.09347px; height: 3.09347px; animation-delay: 0.29002s;"></div><div class="star" style="left: 52.3233%; top: 79.8136%; width: 4.426px; height: 4.426px; animation-delay: 1.55659s;"></div><div class="star" style="left: 63.4431%; top: 87.6417%; width: 2.32144px; height: 2.32144px; animation-delay: 0.45782s;"></div><div class="star" style="left: 56.8963%; top: 36.7316%; width: 2.61973px; height: 2.61973px; animation-delay: 1.02054s;"></div><div class="star" style="left: 13.2362%; top: 97.2302%; width: 0.7385px; height: 0.7385px; animation-delay: 0.987591s;"></div><div class="star" style="left: 16.9991%; top: 46.7751%; width: 5.61472px; height: 5.61472px; animation-delay: 0.0683323s;"></div><div class="star" style="left: 58.8672%; top: 24.6417%; width: 5.76813px; height: 5.76813px; animation-delay: 1.06393s;"></div><div class="star" style="left: 78.5701%; top: 37.434%; width: 4.94633px; height: 4.94633px; animation-delay: 1.63478s;"></div><div class="star" style="left: 25.5234%; top: 76.7963%; width: 3.011px; height: 3.011px; animation-delay: 0.976287s;"></div><div class="star" style="left: 83.6647%; top: 22.9745%; width: 5.17687px; height: 5.17687px; animation-delay: 1.40033s;"></div><div class="star" style="left: 48.2621%; top: 15.2979%; width: 1.73048px; height: 1.73048px; animation-delay: 1.41426s;"></div><div class="star" style="left: 17.7836%; top: 77.8369%; width: 1.00207px; height: 1.00207px; animation-delay: 1.69093s;"></div><div class="star" style="left: 32.552%; top: 67.1963%; width: 2.65807px; height: 2.65807px; animation-delay: 0.596296s;"></div><div class="star" style="left: 82.936%; top: 19.4407%; width: 4.8716px; height: 4.8716px; animation-delay: 0.713312s;"></div><div class="star" style="left: 35.8824%; top: 81.2821%; width: 3.11234px; height: 3.11234px; animation-delay: 1.53332s;"></div><div class="star" style="left: 5.76605%; top: 53.3687%; width: 1.91443px; height: 1.91443px; animation-delay: 1.1252s;"></div><div class="star" style="left: 24.3173%; top: 94.4258%; width: 0.217378px; height: 0.217378px; animation-delay: 0.0893249s;"></div><div class="star" style="left: 4.14467%; top: 82.2492%; width: 5.57659px; height: 5.57659px; animation-delay: 0.566113s;"></div><div class="star" style="left: 95.1063%; top: 8.31218%; width: 3.05807px; height: 3.05807px; animation-delay: 0.155711s;"></div><div class="star" style="left: 11.0453%; top: 52.0882%; width: 1.49894px; height: 1.49894px; animation-delay: 1.75035s;"></div><div class="star" style="left: 29.7905%; top: 8.07485%; width: 3.82695px; height: 3.82695px; animation-delay: 1.15061s;"></div><div class="star" style="left: 6.82128%; top: 76.0326%; width: 2.05128px; height: 2.05128px; animation-delay: 1.91679s;"></div><div class="star" style="left: 78.5712%; top: 89.29%; width: 4.8878px; height: 4.8878px; animation-delay: 1.03276s;"></div><div class="star" style="left: 64.771%; top: 60.4086%; width: 3.49748px; height: 3.49748px; animation-delay: 0.556768s;"></div><div class="star" style="left: 54.3682%; top: 93.0577%; width: 4.07386px; height: 4.07386px; animation-delay: 1.1758s;"></div><div class="star" style="left: 26.267%; top: 94.8067%; width: 5.92885px; height: 5.92885px; animation-delay: 1.23854s;"></div><div class="star" style="left: 4.21219%; top: 49.2846%; width: 3.60433px; height: 3.60433px; animation-delay: 0.315567s;"></div><div class="star" style="left: 48.068%; top: 96.2819%; width: 4.22634px; height: 4.22634px; animation-delay: 0.155377s;"></div><div class="star" style="left: 84.0026%; top: 40.3195%; width: 0.909713px; height: 0.909713px; animation-delay: 0.224139s;"></div><div class="star" style="left: 8.88533%; top: 84.9128%; width: 2.59761px; height: 2.59761px; animation-delay: 0.00531142s;"></div><div class="star" style="left: 90.6285%; top: 56.1381%; width: 4.88651px; height: 4.88651px; animation-delay: 1.24445s;"></div><div class="star" style="left: 87.3712%; top: 1.17327%; width: 5.68924px; height: 5.68924px; animation-delay: 1.16155s;"></div><div class="star" style="left: 23.489%; top: 68.1237%; width: 3.50446px; height: 3.50446px; animation-delay: 0.595229s;"></div><div class="star" style="left: 89.8436%; top: 29.4849%; width: 0.150656px; height: 0.150656px; animation-delay: 0.766285s;"></div><div class="star" style="left: 53.5964%; top: 2.24105%; width: 3.84214px; height: 3.84214px; animation-delay: 1.17806s;"></div><div class="star" style="left: 89.8617%; top: 99.7024%; width: 3.94294px; height: 3.94294px; animation-delay: 0.643023s;"></div><div class="star" style="left: 7.11868%; top: 51.9517%; width: 2.45195px; height: 2.45195px; animation-delay: 0.780935s;"></div><div class="star" style="left: 14.4646%; top: 39.5417%; width: 5.32471px; height: 5.32471px; animation-delay: 1.67306s;"></div><div class="star" style="left: 52.8578%; top: 47.8185%; width: 1.94596px; height: 1.94596px; animation-delay: 1.99301s;"></div><div class="star" style="left: 7.67849%; top: 40.1084%; width: 2.43523px; height: 2.43523px; animation-delay: 0.802827s;"></div><div class="star" style="left: 72.5309%; top: 32.9333%; width: 0.305232px; height: 0.305232px; animation-delay: 0.647514s;"></div><div class="star" style="left: 8.81334%; top: 9.36299%; width: 2.52417px; height: 2.52417px; animation-delay: 1.64872s;"></div><div class="star" style="left: 97.5928%; top: 29.3281%; width: 0.871242px; height: 0.871242px; animation-delay: 1.07766s;"></div><div class="star" style="left: 74.7645%; top: 48.1291%; width: 5.14967px; height: 5.14967px; animation-delay: 1.85633s;"></div><div class="star" style="left: 94.5942%; top: 47.6093%; width: 2.1473px; height: 2.1473px; animation-delay: 1.78355s;"></div><div class="star" style="left: 72.1155%; top: 57.8337%; width: 2.18802px; height: 2.18802px; animation-delay: 0.291141s;"></div><div class="star" style="left: 33.7904%; top: 17.3872%; width: 3.06899px; height: 3.06899px; animation-delay: 0.705908s;"></div><div class="star" style="left: 44.3873%; top: 14.5647%; width: 3.12312px; height: 3.12312px; animation-delay: 1.33572s;"></div><div class="star" style="left: 61.3085%; top: 46.2705%; width: 4.92871px; height: 4.92871px; animation-delay: 0.598559s;"></div><div class="star" style="left: 39.6566%; top: 25.2458%; width: 4.65326px; height: 4.65326px; animation-delay: 0.803392s;"></div><div class="star" style="left: 12.5954%; top: 74.7694%; width: 3.51253px; height: 3.51253px; animation-delay: 1.77523s;"></div><div class="star" style="left: 9.74076%; top: 58.119%; width: 1.49575px; height: 1.49575px; animation-delay: 1.76425s;"></div><div class="star" style="left: 86.7164%; top: 99.9113%; width: 2.04646px; height: 2.04646px; animation-delay: 1.364s;"></div><div class="star" style="left: 15.612%; top: 21.3153%; width: 1.74187px; height: 1.74187px; animation-delay: 0.451446s;"></div><div class="star" style="left: 16.5656%; top: 69.5407%; width: 4.74507px; height: 4.74507px; animation-delay: 0.516947s;"></div><div class="star" style="left: 30.5436%; top: 63.9935%; width: 1.42939px; height: 1.42939px; animation-delay: 1.36326s;"></div><div class="star" style="left: 56.0326%; top: 4.46927%; width: 3.77029px; height: 3.77029px; animation-delay: 0.0538356s;"></div><div class="star" style="left: 46.1485%; top: 22.7196%; width: 0.310085px; height: 0.310085px; animation-delay: 1.62001s;"></div><div class="star" style="left: 4.18511%; top: 50.9953%; width: 2.84143px; height: 2.84143px; animation-delay: 1.63636s;"></div><div class="star" style="left: 50.8548%; top: 29.9596%; width: 3.41937px; height: 3.41937px; animation-delay: 1.59951s;"></div><div class="star" style="left: 43.4301%; top: 36.6961%; width: 4.66248px; height: 4.66248px; animation-delay: 0.987619s;"></div><div class="star" style="left: 40.2858%; top: 1.85505%; width: 1.09861px; height: 1.09861px; animation-delay: 1.27256s;"></div><div class="star" style="left: 64.7589%; top: 80.3003%; width: 2.9869px; height: 2.9869px; animation-delay: 1.20132s;"></div><div class="star" style="left: 82.1834%; top: 30.4463%; width: 0.584292px; height: 0.584292px; animation-delay: 0.321738s;"></div><div class="star" style="left: 50.6494%; top: 3.1354%; width: 0.338603px; height: 0.338603px; animation-delay: 1.52542s;"></div><div class="star" style="left: 56.0957%; top: 7.96621%; width: 5.23252px; height: 5.23252px; animation-delay: 1.38597s;"></div><div class="star" style="left: 27.9441%; top: 0.30775%; width: 2.13871px; height: 2.13871px; animation-delay: 1.63481s;"></div><div class="star" style="left: 24.5268%; top: 92.9113%; width: 4.6991px; height: 4.6991px; animation-delay: 0.506898s;"></div><div class="star" style="left: 18.0944%; top: 98.8622%; width: 0.0366989px; height: 0.0366989px; animation-delay: 1.81504s;"></div><div class="star" style="left: 25.4576%; top: 29.4401%; width: 0.995976px; height: 0.995976px; animation-delay: 1.13463s;"></div><div class="star" style="left: 17.9897%; top: 47.4673%; width: 1.24418px; height: 1.24418px; animation-delay: 0.577626s;"></div><div class="star" style="left: 27.378%; top: 75.1926%; width: 3.67306px; height: 3.67306px; animation-delay: 1.34357s;"></div><div class="star" style="left: 43.582%; top: 15.4777%; width: 4.45126px; height: 4.45126px; animation-delay: 1.09326s;"></div><div class="star" style="left: 26.3814%; top: 66.8814%; width: 2.72952px; height: 2.72952px; animation-delay: 0.783037s;"></div><div class="star" style="left: 91.7369%; top: 40.581%; width: 1.72019px; height: 1.72019px; animation-delay: 0.170001s;"></div><div class="star" style="left: 21.2084%; top: 72.4238%; width: 5.40158px; height: 5.40158px; animation-delay: 0.622358s;"></div><div class="star" style="left: 99.304%; top: 89.4143%; width: 2.76869px; height: 2.76869px; animation-delay: 0.233875s;"></div><div class="star" style="left: 94.6356%; top: 49.7946%; width: 5.79383px; height: 5.79383px; animation-delay: 0.729338s;"></div><div class="star" style="left: 3.33316%; top: 87.1554%; width: 0.492993px; height: 0.492993px; animation-delay: 1.92123s;"></div><div class="star" style="left: 45.3199%; top: 30.3525%; width: 3.42923px; height: 3.42923px; animation-delay: 1.26498s;"></div><div class="star" style="left: 78.1962%; top: 98.8107%; width: 3.7738px; height: 3.7738px; animation-delay: 1.33471s;"></div><div class="star" style="left: 21.2243%; top: 42.0179%; width: 1.48011px; height: 1.48011px; animation-delay: 1.86668s;"></div><div class="star" style="left: 23.5039%; top: 35.6979%; width: 2.35033px; height: 2.35033px; animation-delay: 0.525399s;"></div><div class="star" style="left: 30.402%; top: 43.6197%; width: 4.4357px; height: 4.4357px; animation-delay: 1.6332s;"></div><div class="star" style="left: 76.1644%; top: 73.775%; width: 3.94872px; height: 3.94872px; animation-delay: 1.75063s;"></div><div class="star" style="left: 33.812%; top: 50.0554%; width: 1.06605px; height: 1.06605px; animation-delay: 1.53181s;"></div><div class="star" style="left: 42.3527%; top: 58.1553%; width: 1.11792px; height: 1.11792px; animation-delay: 1.67492s;"></div><div class="star" style="left: 68.3431%; top: 70.1128%; width: 4.52981px; height: 4.52981px; animation-delay: 0.664608s;"></div><div class="star" style="left: 96.7236%; top: 51.9573%; width: 0.905013px; height: 0.905013px; animation-delay: 1.84737s;"></div><div class="star" style="left: 30.1723%; top: 97.3731%; width: 5.74659px; height: 5.74659px; animation-delay: 0.915538s;"></div><div class="star" style="left: 30.8734%; top: 46.0366%; width: 0.0034548px; height: 0.0034548px; animation-delay: 0.900169s;"></div><div class="star" style="left: 79.4749%; top: 91.2304%; width: 1.77362px; height: 1.77362px; animation-delay: 0.8174s;"></div><div class="star" style="left: 46.4787%; top: 99.6545%; width: 1.23073px; height: 1.23073px; animation-delay: 0.926969s;"></div><div class="star" style="left: 61.9519%; top: 52.0301%; width: 1.35465px; height: 1.35465px; animation-delay: 1.30815s;"></div><div class="star" style="left: 50.3548%; top: 89.948%; width: 4.66081px; height: 4.66081px; animation-delay: 1.12129s;"></div><div class="star" style="left: 27.9965%; top: 65.8172%; width: 5.40713px; height: 5.40713px; animation-delay: 1.82884s;"></div><div class="star" style="left: 56.1909%; top: 37.1801%; width: 1.2325px; height: 1.2325px; animation-delay: 0.915903s;"></div><div class="star" style="left: 16.7608%; top: 18.0813%; width: 0.923686px; height: 0.923686px; animation-delay: 1.43027s;"></div><div class="star" style="left: 23.1985%; top: 80.7277%; width: 4.99726px; height: 4.99726px; animation-delay: 0.618281s;"></div><div class="star" style="left: 20.2991%; top: 52.1623%; width: 1.97805px; height: 1.97805px; animation-delay: 1.88254s;"></div><div class="star" style="left: 2.08935%; top: 51.8093%; width: 1.76672px; height: 1.76672px; animation-delay: 1.33543s;"></div><div class="star" style="left: 10.8914%; top: 59.2007%; width: 2.37297px; height: 2.37297px; animation-delay: 0.136381s;"></div><div class="star" style="left: 57.4672%; top: 68.7024%; width: 5.89502px; height: 5.89502px; animation-delay: 1.4802s;"></div><div class="star" style="left: 68.3573%; top: 61.2712%; width: 2.09436px; height: 2.09436px; animation-delay: 1.04243s;"></div><div class="star" style="left: 96.4502%; top: 20.7221%; width: 5.71723px; height: 5.71723px; animation-delay: 1.07598s;"></div><div class="star" style="left: 52.2354%; top: 2.1673%; width: 5.68047px; height: 5.68047px; animation-delay: 0.496217s;"></div><div class="star" style="left: 64.3041%; top: 49.9217%; width: 2.7665px; height: 2.7665px; animation-delay: 1.54827s;"></div><div class="star" style="left: 1.48528%; top: 73.3606%; width: 0.426486px; height: 0.426486px; animation-delay: 1.37722s;"></div><div class="star" style="left: 70.344%; top: 39.066%; width: 0.883068px; height: 0.883068px; animation-delay: 1.2928s;"></div><div class="star" style="left: 57.0813%; top: 53.0639%; width: 3.71772px; height: 3.71772px; animation-delay: 1.88109s;"></div><div class="star" style="left: 74.2345%; top: 98.2045%; width: 5.04503px; height: 5.04503px; animation-delay: 0.101853s;"></div><div class="star" style="left: 23.543%; top: 43.6848%; width: 2.21447px; height: 2.21447px; animation-delay: 1.67796s;"></div><div class="star" style="left: 59.0528%; top: 21.1539%; width: 5.17916px; height: 5.17916px; animation-delay: 1.86818s;"></div><div class="star" style="left: 42.7439%; top: 56.7166%; width: 4.6145px; height: 4.6145px; animation-delay: 1.15155s;"></div><div class="star" style="left: 58.2325%; top: 88.1882%; width: 2.57579px; height: 2.57579px; animation-delay: 0.285635s;"></div><div class="star" style="left: 49.4882%; top: 48.7963%; width: 3.46845px; height: 3.46845px; animation-delay: 1.52625s;"></div><div class="star" style="left: 89.4122%; top: 59.8249%; width: 4.05372px; height: 4.05372px; animation-delay: 0.210315s;"></div><div class="star" style="left: 18.2265%; top: 2.41868%; width: 2.59034px; height: 2.59034px; animation-delay: 0.532783s;"></div><div class="star" style="left: 12.6233%; top: 95.3544%; width: 4.6204px; height: 4.6204px; animation-delay: 0.024529s;"></div><div class="star" style="left: 56.1972%; top: 74.3359%; width: 0.759322px; height: 0.759322px; animation-delay: 0.31861s;"></div><div class="star" style="left: 90.8537%; top: 98.3189%; width: 1.63715px; height: 1.63715px; animation-delay: 1.48041s;"></div><div class="star" style="left: 37.8455%; top: 63.1149%; width: 0.465752px; height: 0.465752px; animation-delay: 0.92081s;"></div><div class="star" style="left: 76.4606%; top: 21.8707%; width: 1.38575px; height: 1.38575px; animation-delay: 0.521438s;"></div><div class="star" style="left: 25.2932%; top: 55.7087%; width: 5.15832px; height: 5.15832px; animation-delay: 1.59717s;"></div><div class="star" style="left: 31.6426%; top: 82.8631%; width: 2.74202px; height: 2.74202px; animation-delay: 0.0361823s;"></div><div class="star" style="left: 99.0919%; top: 28.9381%; width: 4.46174px; height: 4.46174px; animation-delay: 0.953736s;"></div><div class="star" style="left: 46.6133%; top: 76.0958%; width: 4.28665px; height: 4.28665px; animation-delay: 0.19733s;"></div><div class="star" style="left: 29.4736%; top: 70.7573%; width: 4.93144px; height: 4.93144px; animation-delay: 1.85231s;"></div><div class="star" style="left: 31.3785%; top: 44.6972%; width: 2.92116px; height: 2.92116px; animation-delay: 0.0981119s;"></div><div class="star" style="left: 2.63864%; top: 17.0777%; width: 1.06442px; height: 1.06442px; animation-delay: 1.58025s;"></div><div class="star" style="left: 51.1466%; top: 98.9001%; width: 5.40473px; height: 5.40473px; animation-delay: 0.536332s;"></div><div class="star" style="left: 69.3782%; top: 13.5967%; width: 1.39279px; height: 1.39279px; animation-delay: 0.139981s;"></div><div class="star" style="left: 0.4074%; top: 14.8622%; width: 5.13692px; height: 5.13692px; animation-delay: 1.13817s;"></div><div class="star" style="left: 28.1087%; top: 97.5448%; width: 3.66889px; height: 3.66889px; animation-delay: 1.8665s;"></div><div class="star" style="left: 73.5804%; top: 85.0918%; width: 4.55808px; height: 4.55808px; animation-delay: 1.64211s;"></div><div class="star" style="left: 64.1809%; top: 39.8923%; width: 1.57968px; height: 1.57968px; animation-delay: 1.24934s;"></div><div class="star" style="left: 56.9199%; top: 61.0778%; width: 0.323341px; height: 0.323341px; animation-delay: 1.63452s;"></div><div class="star" style="left: 86.5855%; top: 40.1201%; width: 0.419488px; height: 0.419488px; animation-delay: 0.241164s;"></div><div class="star" style="left: 79.6462%; top: 77.6803%; width: 4.9316px; height: 4.9316px; animation-delay: 0.434158s;"></div><div class="star" style="left: 13.1026%; top: 76.4213%; width: 2.11807px; height: 2.11807px; animation-delay: 1.51383s;"></div><div class="star" style="left: 81.3591%; top: 32.9385%; width: 5.25242px; height: 5.25242px; animation-delay: 1.27443s;"></div><div class="star" style="left: 58.6789%; top: 42.2442%; width: 0.0503568px; height: 0.0503568px; animation-delay: 0.760758s;"></div><div class="star" style="left: 43.0953%; top: 29.9031%; width: 5.47112px; height: 5.47112px; animation-delay: 1.55902s;"></div><div class="star" style="left: 73.554%; top: 1.31592%; width: 4.37818px; height: 4.37818px; animation-delay: 0.513623s;"></div><div class="star" style="left: 9.14887%; top: 95.7148%; width: 2.30452px; height: 2.30452px; animation-delay: 0.439288s;"></div><div class="star" style="left: 89.221%; top: 50.4025%; width: 1.16222px; height: 1.16222px; animation-delay: 0.243229s;"></div><div class="star" style="left: 24.5798%; top: 64.161%; width: 2.30974px; height: 2.30974px; animation-delay: 1.92665s;"></div><div class="star" style="left: 82.6406%; top: 6.68367%; width: 3.88325px; height: 3.88325px; animation-delay: 1.09707s;"></div><div class="star" style="left: 8.65368%; top: 98.9268%; width: 0.0399405px; height: 0.0399405px; animation-delay: 1.79918s;"></div><div class="star" style="left: 98.3067%; top: 75.5986%; width: 2.29203px; height: 2.29203px; animation-delay: 0.446622s;"></div><div class="star" style="left: 66.7458%; top: 88.5777%; width: 3.58619px; height: 3.58619px; animation-delay: 0.632264s;"></div><div class="star" style="left: 90.5117%; top: 80.7157%; width: 0.854913px; height: 0.854913px; animation-delay: 1.99726s;"></div><div class="star" style="left: 24.3159%; top: 63.7858%; width: 2.89231px; height: 2.89231px; animation-delay: 0.279012s;"></div><div class="star" style="left: 58.2399%; top: 28.6649%; width: 1.64244px; height: 1.64244px; animation-delay: 1.46142s;"></div><div class="star" style="left: 8.66717%; top: 42.6183%; width: 1.62126px; height: 1.62126px; animation-delay: 1.93137s;"></div><div class="star" style="left: 68.0448%; top: 85.6281%; width: 3.09299px; height: 3.09299px; animation-delay: 1.87537s;"></div><div class="star" style="left: 26.5546%; top: 92.4419%; width: 2.60986px; height: 2.60986px; animation-delay: 0.319702s;"></div><div class="star" style="left: 1.88258%; top: 11.0031%; width: 2.48145px; height: 2.48145px; animation-delay: 1.34681s;"></div><div class="star" style="left: 31.5874%; top: 14.7415%; width: 5.29766px; height: 5.29766px; animation-delay: 0.177373s;"></div><div class="star" style="left: 80.6125%; top: 51.9959%; width: 3.36512px; height: 3.36512px; animation-delay: 0.968597s;"></div><div class="star" style="left: 73.6927%; top: 8.01884%; width: 0.117285px; height: 0.117285px; animation-delay: 0.193598s;"></div><div class="star" style="left: 32.437%; top: 91.12%; width: 2.62463px; height: 2.62463px; animation-delay: 1.87017s;"></div><div class="star" style="left: 29.5529%; top: 30.5485%; width: 5.77871px; height: 5.77871px; animation-delay: 1.42544s;"></div><div class="star" style="left: 8.93171%; top: 96.8339%; width: 5.87077px; height: 5.87077px; animation-delay: 0.235118s;"></div><div class="star" style="left: 82.5123%; top: 50.05%; width: 2.33435px; height: 2.33435px; animation-delay: 1.49115s;"></div><div class="star" style="left: 74.5919%; top: 30.4906%; width: 5.82752px; height: 5.82752px; animation-delay: 0.502985s;"></div><div class="star" style="left: 28.7739%; top: 69.9716%; width: 5.39934px; height: 5.39934px; animation-delay: 0.391228s;"></div><div class="star" style="left: 12.6948%; top: 4.62371%; width: 0.85771px; height: 0.85771px; animation-delay: 0.631052s;"></div><div class="star" style="left: 78.1941%; top: 54.2425%; width: 1.22694px; height: 1.22694px; animation-delay: 1.30562s;"></div><div class="star" style="left: 34.4453%; top: 46.9022%; width: 2.29667px; height: 2.29667px; animation-delay: 0.0697625s;"></div><div class="star" style="left: 1.7514%; top: 10.306%; width: 4.41474px; height: 4.41474px; animation-delay: 0.338759s;"></div><div class="star" style="left: 17.8744%; top: 58.807%; width: 1.01898px; height: 1.01898px; animation-delay: 1.45661s;"></div><div class="star" style="left: 44.976%; top: 58.7672%; width: 1.11366px; height: 1.11366px; animation-delay: 1.27342s;"></div><div class="star" style="left: 38.7172%; top: 33.4686%; width: 0.646255px; height: 0.646255px; animation-delay: 1.35459s;"></div><div class="star" style="left: 1.69456%; top: 1.32511%; width: 2.57359px; height: 2.57359px; animation-delay: 1.33756s;"></div><div class="star" style="left: 96.6557%; top: 37.3008%; width: 5.96222px; height: 5.96222px; animation-delay: 0.155957s;"></div><div class="star" style="left: 0.608646%; top: 15.2432%; width: 2.05624px; height: 2.05624px; animation-delay: 0.85125s;"></div><div class="star" style="left: 14.7864%; top: 8.65888%; width: 0.0190989px; height: 0.0190989px; animation-delay: 0.380154s;"></div><div class="star" style="left: 10.8119%; top: 48.9872%; width: 2.6302px; height: 2.6302px; animation-delay: 1.44924s;"></div><div class="star" style="left: 88.2496%; top: 10.1721%; width: 3.00453px; height: 3.00453px; animation-delay: 1.94063s;"></div><div class="star" style="left: 71.5521%; top: 9.84109%; width: 1.67388px; height: 1.67388px; animation-delay: 0.929998s;"></div><div class="star" style="left: 37.0137%; top: 8.70483%; width: 0.905171px; height: 0.905171px; animation-delay: 0.888455s;"></div><div class="star" style="left: 84.5731%; top: 39.1056%; width: 0.921981px; height: 0.921981px; animation-delay: 1.15559s;"></div><div class="star" style="left: 35.2965%; top: 22.3534%; width: 1.37018px; height: 1.37018px; animation-delay: 0.0632358s;"></div><div class="star" style="left: 89.4568%; top: 37.0055%; width: 2.15855px; height: 2.15855px; animation-delay: 0.933688s;"></div><div class="star" style="left: 52.1551%; top: 79.3257%; width: 3.53503px; height: 3.53503px; animation-delay: 0.411659s;"></div><div class="star" style="left: 59.7195%; top: 56.6958%; width: 5.90763px; height: 5.90763px; animation-delay: 0.0666994s;"></div><div class="star" style="left: 69.4995%; top: 62.6823%; width: 0.929374px; height: 0.929374px; animation-delay: 0.303404s;"></div><div class="star" style="left: 40.799%; top: 90.7773%; width: 5.37875px; height: 5.37875px; animation-delay: 0.692276s;"></div><div class="star" style="left: 48.4717%; top: 59.5448%; width: 5.77245px; height: 5.77245px; animation-delay: 0.334948s;"></div><div class="star" style="left: 43.1572%; top: 92.3176%; width: 0.365839px; height: 0.365839px; animation-delay: 0.948125s;"></div><div class="star" style="left: 48.6919%; top: 35.6205%; width: 4.87653px; height: 4.87653px; animation-delay: 0.0206195s;"></div><div class="star" style="left: 54.8973%; top: 32.8384%; width: 1.12027px; height: 1.12027px; animation-delay: 0.243772s;"></div><div class="star" style="left: 35.4927%; top: 72.4017%; width: 4.69725px; height: 4.69725px; animation-delay: 1.39554s;"></div><div class="star" style="left: 23.6765%; top: 95.9228%; width: 1.26559px; height: 1.26559px; animation-delay: 0.542574s;"></div><div class="star" style="left: 56.8825%; top: 28.2222%; width: 0.383294px; height: 0.383294px; animation-delay: 1.90046s;"></div></div>
+
+  <div class="language-selection">
+    <h2 style="text-align: center;">RR_INCOGNITO</h2>
+      <img src="./Игровой портал_files/tg.png">
+   
+    </div>
+  
+
+
+
+<div id="Contact" class="tabcontent" style="display: none;">
+    <div class="image-container">
+        <h2 class="title" id="game-picker-title">Выбор игры</h2>
+        <img src="./Игровой портал_files/secret.png" alt="Secret Image">
+    </div>
+    <p id="device-output" class="device-info">Устройство не определено</p>
+    <button onclick="detectDevice()" class="detect-button" id="detect-button">Определить устройство</button>
+    <button onclick="startGame()" class="start-button" id="start-button">Начать</button>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <button class="close-button" onclick="closeModal()">×</button>
+            <h2 style="text-align: center;">Instruction</h2>
+            <div class="carousel">
+                <div class="slides" style="width: 200%; transition: transform 0.5s ease;">
+                    <div class="slide" style="width: 50%; float: left;"><img src="./Игровой портал_files/inst1.png" alt="Instruction 1"></div>
+                    <div class="slide" style="width: 50%; float: left;"><img src="./Игровой портал_files/inst2.png" alt="Instruction 2"></div>
+                </div>
+                <a class="prev" onclick="plusSlides(-1)">❮</a>
+                <a class="next" onclick="plusSlides(1)">❯</a>
+                <div class="dots-container">
+                    <span class="dot" onclick="currentSlide(1)"></span>
+                    <span class="dot" onclick="currentSlide(2)"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="miniModal" class="modal-mini" style="display: none;">
+        <div class="modal-content-mini">
+            <button class="close-button-mini" onclick="closeMiniModal()">×</button>
+        </div>
+    </div>
+</div>
+
+<div id="Games" class="tabcontent active" style="display: flex;">
+
+    <div class="row">
+        <div class="game">
+            <img src="./Игровой портал_files/1.png" alt="Mines Preview">
+            <div class="game-info">
+                <h3 id="game1-title">Mines</h3>
+                <button id="game1-button" onclick="openGame(&#39;mines&#39;)">Открыть</button>
+            </div>
+        </div>
+        <div class="game">
+            <img src="./Игровой портал_files/mimines.jpg" alt="MinesSpribe Preview">
+            <div class="game-info">
+                <h3 id="game2-title">Mines Spribe</h3>
+                <button id="game2-button" onclick="openGame(&#39;spribe&#39;)">Открыть</button>
+            </div>
+        </div>
+        <div class="game">
+            <img src="./Игровой портал_files/4.png" alt="Bombucks Preview">
+            <div class="game-info">
+                <h3 id="game3-title">Bombucks</h3>
+                <button id="game3-button" onclick="openGame(&#39;bomBucks&#39;)">Открыть</button>
+            </div>
+        </div>
+        <div class="game">
+            <img src="./Игровой портал_files/3.png" alt="Brawl Pirates Preview">
+            <div class="game-info">
+                <h3 id="game4-title">Brawl Pirates</h3>
+                <button id="game4-button" onclick="openGame(&#39;brawlPirates&#39;)">Открыть</button>
+            </div>
+        </div>
+        <div class="game">
+            <img src="./Игровой портал_files/2.png" alt="Royal Mines Preview">
+            <div class="game-info">
+                <h3 id="game5-title">Royal Mines</h3>
+                <button id="game5-button" onclick="openGame(&#39;royalMines&#39;)">Открыть</button>
+            </div>
+        </div>
+        <div class="game">
+            <img src="./Игровой портал_files/penafon.png" alt="Penalty Shoot Preview">
+            <div class="game-info">
+                <h3 id="game6-title">Penalty Shoot</h3>
+                <button id="game6-button" onclick="openGame(&#39;penalty&#39;)">Открыть</button>
+            </div>
+        </div>
+        <div class="game">
+            <img src="./Игровой портал_files/footxiconca.png" alt="Football X Preview">
+            <div class="game-info">
+                <h3 id="game7-title">Football X</h3>
+                <button id="game7-button" onclick="openGame(&#39;footballX&#39;)">Открыть</button>
+            </div>
+        </div>
+        <div class="game">
+            <img src="./Игровой портал_files/5.png" alt="LuckyJet Preview">
+            <div class="game-info">
+                <h3 id="game10-title">LuckyJet</h3>
+                <button id="game10-button" onclick="openGame(&#39;lucky&#39;)">Открыть</button>
+            </div>
+        </div>
+        <div class="game">
+            <img src="./Игровой портал_files/7.png" alt="Aviator Preview">
+            <div class="game-info">
+                <h3 id="game11-title">Aviator</h3>
+                <button id="game11-button" onclick="openGame(&#39;aviator&#39;)">Открыть</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="tab">
+    <button class="tablinks games-icon active" data-tab="Games" onclick="openTab(event, &#39;Games&#39;, this)">
+        <img src="./Игровой портал_files/game.png" alt="Игры">
+    </button>
+    <button class="tablinks contact-icon" data-tab="Contact" onclick="openTab(event, &#39;Contact&#39;, this)">
+        <img src="./Игровой портал_files/money.png" alt="Контакты">
+    </button>
+</div>
+
+
+<audio id="aboutAudio" src="gif.mp3"></audio>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        let gamesButton = document.querySelector('.tablinks.games-icon');
+        openTab(new Event('click'), 'Games', gamesButton);
+        showSlides(slideIndex);
+    });
+
+
+const translations = {
+    ru: {
+        gamePickerTitle: "ВЫБОР ИГРЫ",
+        detectButton: "Определить устройство",
+        startButton: "Start",
+        game1Title: "Mines",
+        game1Button: "Открыть",
+        game2Title: "Mines Spibe",
+        game2Button: "Открыть",
+        game3Title: "Bombucks",
+        game3Button: "Открыть",
+        game4Title: "Brawl Pirates",
+        game4Button: "Открыть",
+        game5Title: "Royal Mines",
+        game5Button: "Открыть",
+        game6Title: "Penalty Shoot",
+        game6Button: "Открыть",
+        game7Title: "Football X",
+        game7Button: "Открыть",
+        game8Title: "Penalty Shoot",
+        game8Button: "Открыть",
+        game9Title: "Football X",
+        game9Button: "Открыть",
+        game10Title: "LuckyJet",
+        game10Button: "Открыть",
+        game11Title: "Aviator",
+        game11Button: "Открыть",
+        telegramButton: "Go to telegram (RU)",
+        telegramButton2: "Go to telegram (EN)"
+    },
+    ru: {
+        gamePickerTitle: "ВЫБОР ИГР",
+        detectButton: "Определить устройство",
+        startButton: "Начать",
+        game1Title: "Mines",
+        game1Button: "Открыть",
+        game2Title: "Mines Spibe",
+        game2Button: "Открыть",
+        game3Title: "Bombucks",
+        game3Button: "Открыть",
+        game4Title: "Brawl Pirates",
+        game4Button: "Открыть",
+        game5Title: "Royal Mines",
+        game5Button: "Открыть",
+        game6Title: "Penalty Shoot",
+        game6Button: "Открыть",
+        game7Title: "Football X",
+        game7Button: "Открыть",
+        game8Title: "Penalty Shoot",
+        game8Button: "Открыть",
+        game9Title: "Football X",
+        game9Button: "Открыть",
+        game10Title: "LuckyJet",
+        game10Button: "Открыть",
+        game11Title: "Aviator",
+        game11Button: "Открыть",
+        telegramButton: "Перейти в телеграм (RU)",
+        telegramButton2: "Перейти в телеграм (EN)"
+    },
+    hi: {
+        gamePickerTitle: "गेम पिकर",
+        detectButton: "डिवाइस का पता लगाएं",
+        startButton: "शुरू करें",
+        game1Title: "Mines",
+        game1Button: "खोलें",
+        game2Title: "Mines Spibe",
+        game2Button: "खोलें",
+        game3Title: "Bombucks",
+        game3Button: "खोलें",
+        game4Title: "Brawl Pirates",
+        game4Button: "खोलें",
+        game5Title: "Royal Mines",
+        game5Button: "खोलें",
+        game6Title: "Penalty Shoot",
+        game6Button: "खोलें",
+        game7Title: "Football X",
+        game7Button: "खोलें",
+        game8Title: "Penalty Shoot",
+        game8Button: "खोलें",
+        game9Title: "Football X",
+        game9Button: "खोलें",
+        game10Title: "LuckyJet",
+        game10Button: "खोलें",
+        game11Title: "Aviator",
+        game11Button: "खोलें",
+        telegramButton: "टेलीग्राम पर जाएं (RU)",
+        telegramButton2: "टेलीग्राम पर जाएं (EN)"
+    },
+    br: {
+        gamePickerTitle: "SELETOR DE JOGOS",
+        detectButton: "Detectar dispositivo",
+        startButton: "Iniciar",
+        game1Title: "Mines",
+        game1Button: "Abrir",
+        game2Title: "Mines Spibe",
+        game2Button: "Abrir",
+        game3Title: "Bombucks",
+        game3Button: "Abrir",
+        game4Title: "Brawl Pirates",
+        game4Button: "Abrir",
+        game5Title: "Royal Mines",
+        game5Button: "Abrir",
+        game6Title: "Penalty Shoot",
+        game6Button: "Abrir",
+        game7Title: "Football X",
+        game7Button: "Abrir",
+        game8Title: "Penalty Shoot",
+        game8Button: "Abrir",
+        game9Title: "Football X",
+        game9Button: "Abrir",
+        game10Title: "LuckyJet",
+        game10Button: "Abrir",
+        game11Title: "Aviator",
+        game11Button: "Abrir",
+        telegramButton: "Ir para o Telegram (RU)",
+        telegramButton2: "Ir para o Telegram (EN)"
+    },
+    es: {
+        gamePickerTitle: "SELECCIONADOR DE JUEGOS",
+        detectButton: "Detectar dispositivo",
+        startButton: "Iniciar",
+        game1Title: "Mines",
+        game1Button: "Abrir",
+        game2Title: "Mines Spibe",
+        game2Button: "Abrir",
+        game3Title: "Bombucks",
+        game3Button: "Abrir",
+        game4Title: "Brawl Pirates",
+        game4Button: "Abrir",
+        game5Title: "Royal Mines",
+        game5Button: "Abrir",
+        game6Title: "Penalty Shoot",
+        game6Button: "Abrir",
+        game7Title: "Football X",
+        game7Button: "Abrir",
+        game8Title: "Penalty Shoot",
+        game8Button: "Abrir",
+        game9Title: "Football X",
+        game9Button: "Abrir",
+        game10Title: "LuckyJet",
+        game10Button: "Abrir",
+        game11Title: "Aviator",
+        game11Button: "Abrir",
+        telegramButton: "Ir a Telegram (RU)",
+        telegramButton2: "Ir a Telegram (EN)"
+    },
+    uz: {
+        gamePickerTitle: "O'YIN TANLOVCHI",
+        detectButton: "Qurilmani aniqlash",
+        startButton: "Boshlash",
+        game1Title: "Mines",
+        game1Button: "Ochish",
+        game2Title: "Mines Spibe",
+        game2Button: "Ochish",
+        game3Title: "Bombucks",
+        game3Button: "Ochish",
+        game4Title: "Brawl Pirates",
+        game4Button: "Ochish",
+        game5Title: "Royal Mines",
+        game5Button: "Ochish",
+        game6Title: "Penalty Shoot",
+        game6Button: "Ochish",
+        game7Title: "Football X",
+        game7Button: "Ochish",
+        game8Title: "Penalty Shoot",
+        game8Button: "Ochish",
+        game9Title: "Football X",
+        game9Button: "Ochish",
+        game10Title: "LuckyJet",
+        game10Button: "Ochish",
+        game11Title: "Aviator",
+        game11Button: "Ochish",
+        telegramButton: "Telegramga o'tish (RU)",
+        telegramButton2: "Telegramga o'tish (EN)"
+    },
+    az: {
+        gamePickerTitle: "OYUN SEÇİCİ",
+        detectButton: "Cihazı aşkar et",
+        startButton: "Başla",
+        game1Title: "Mines",
+        game1Button: "Aç",
+        game2Title: "Mines Spibe",
+        game2Button: "Aç",
+        game3Title: "Bombucks",
+        game3Button: "Aç",
+        game4Title: "Brawl Pirates",
+        game4Button: "Aç",
+        game5Title: "Royal Mines",
+        game5Button: "Aç",
+        game6Title: "Penalty Shoot",
+        game6Button: "Aç",
+        game7Title: "Football X",
+        game7Button: "Aç",
+        game8Title: "Penalty Shoot",
+        game8Button: "Aç",
+        game9Title: "Football X",
+        game9Button: "Aç",
+        game10Title: "LuckyJet",
+        game10Button: "Aç",
+        game11Title: "Aviator",
+        game11Button: "Aç",
+        telegramButton: "Teleqrama keç (RU)",
+        telegramButton2: "Teleqrama keç (EN)"
+    },
+    tr: {
+        gamePickerTitle: "OYUN SEÇİCİ",
+        detectButton: "Cihazı tespit et",
+        startButton: "Başlat",
+        game1Title: "Mines",
+        game1Button: "Aç",
+        game2Title: "Mines Spibe",
+        game2Button: "Aç",
+        game3Title: "Bombucks",
+        game3Button: "Aç",
+        game4Title: "Brawl Pirates",
+        game4Button: "Aç",
+        game5Title: "Royal Mines",
+        game5Button: "Aç",
+        game6Title: "Penalty Shoot",
+        game6Button: "Aç",
+        game7Title: "Football X",
+        game7Button: "Aç",
+        game8Title: "Penalty Shoot",
+        game8Button: "Aç",
+        game9Title: "Football X",
+        game9Button: "Aç",
+        game10Title: "LuckyJet",
+        game10Button: "Aç",
+        game11Title: "Aviator",
+        game11Button: "Aç",
+        telegramButton: "Telegrame git (RU)",
+        telegramButton2: "Telegrame git (EN)"
+    },
+    pt: {
+        gamePickerTitle: "ESCOLHEDOR DE JOGOS",
+        detectButton: "Detectar dispositivo",
+        startButton: "Iniciar",
+        game1Title: "Mines",
+        game1Button: "Abrir",
+        game2Title: "Mines Spibe",
+        game2Button: "Abrir",
+        game3Title: "Bombucks",
+        game3Button: "Abrir",
+        game4Title: "Brawl Pirates",
+        game4Button: "Abrir",
+        game5Title: "Royal Mines",
+        game5Button: "Abrir",
+        game6Title: "Penalty Shoot",
+        game6Button: "Abrir",
+        game7Title: "Football X",
+        game7Button: "Abrir",
+        game8Title: "Penalty Shoot",
+        game8Button: "Abrir",
+        game9Title: "Football X",
+        game9Button: "Abrir",
+        game10Title: "LuckyJet",
+        game10Button: "Abrir",
+        game11Title: "Aviator",
+        game11Button: "Abrir",
+        telegramButton: "Ir para o Telegram (RU)",
+        telegramButton2: "Ir para o Telegram (EN)"
+    },
+    ar: {
+        gamePickerTitle: "مُختار الألعاب",
+        detectButton: "اكتشاف الجهاز",
+        startButton: "ابدأ",
+        game1Title: "Mines",
+        game1Button: "فتح",
+        game2Title: "Mines Spibe",
+        game2Button: "فتح",
+        game3Title: "Bombucks",
+        game3Button: "فتح",
+        game4Title: "Brawl Pirates",
+        game4Button: "فتح",
+        game5Title: "Royal Mines",
+        game5Button: "فتح",
+        game6Title: "Penalty Shoot",
+        game6Button: "فتح",
+        game7Title: "Football X",
+        game7Button: "فتح",
+        game8Title: "Penalty Shoot",
+        game8Button: "فتح",
+        game9Title: "Football X",
+        game9Button: "فتح",
+        game10Title: "LuckyJet",
+        game10Button: "فتح",
+        game11Title: "Aviator",
+        game11Button: "فتح",
+        telegramButton: "اذهب إلى Telegram (RU)",
+        telegramButton2: "اذهب إلى Telegram (EN)"
+    }
+};
+
+
+
+
+
+    // Создаем звезды
+    function createStars() {
+      const stars = document.getElementById('stars');
+      const count = 370; // количество звезд
+
+      for(let i = 0; i < count; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+        
+        // Рандомное положение
+        const x = Math.random() * 100;
+        const y = Math.random() * 100;
+        
+        // Рандомный размер
+        const size = Math.random() * 6;
+        
+        star.style.left = x + '%';
+        star.style.top = y + '%';
+        star.style.width = size + 'px';
+        star.style.height = size + 'px';
+        
+        // Рандомная задержка мерцания
+        star.style.animationDelay = Math.random() * 2 + 's';
+        
+        stars.appendChild(star);
+      }
+    }
+
+    // Запускаем создание звезд
+    createStars();
+
+
+
+
+
+
+    function showSlides(n) {
+            var i;
+            var slides = document.getElementsByClassName("slide");
+            var dots = document.getElementsByClassName("dot");
+            var slidesContainer = document.querySelector(".slides");
+
+            if (n > slides.length) {slideIndex = 1}
+            if (n < 1) {slideIndex = slides.length}
+            for (i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" active", "");
+            }
+            slidesContainer.style.transform = `translateX(${-(slideIndex - 1) * 100 / slides.length}%)`;
+            dots[slideIndex - 1].className += " active";
+        }
+
+        function openTab(evt, tabName, button) {
+            var i, tabcontent, tablinks;
+            var miniModal = document.getElementById('miniModal');
+            var aboutGif = document.getElementById('aboutGif');
+        
+            // Скрываем все вкладки и удаляем класс 'active'
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+                tabcontent[i].classList.remove('active');
+            }
+        
+            // Удаляем класс 'active' у всех кнопок
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].classList.remove("active");
+            }
+        
+            // Показываем текущую вкладку и добавляем класс 'active'
+            document.getElementById(tabName).style.display = "flex";
+            document.getElementById(tabName).classList.add('active');
+            button.classList.add("active");
+        
+            // Скроллим страницу
+            if (tabName === 'Games') {
+                window.scrollTo({ top: 45, behavior: 'smooth' });
+            } else {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        
+            // Обрабатываем вкладку 'About'
+            if (tabName === 'About') {
+                var newAboutGif = aboutGif.cloneNode(true);
+                aboutGif.parentNode.replaceChild(newAboutGif, aboutGif);
+                aboutGif = newAboutGif; // обновляем ссылку на новый элемент
+                aboutAudio.play();
+            } else {
+                aboutAudio.pause();
+                aboutAudio.currentTime = 0;
+            }
+        
+            // Обрабатываем вкладку 'Contact'
+            if (tabName === 'Contact') {
+                miniModal.style.display = 'none';
+            }
+        }
+
+
+
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        let particlesArray = [];
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 5 + 1;
+                this.speedX = Math.random() * 3 - 1.5;
+                this.speedY = Math.random() * 3 - 1.5;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.size > 0.2) this.size -= 0.1;
+            }
+            draw() {
+                ctx.fillStyle = 'rgba(255,255,255,0.8)';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function init() {
+            for (let i = 0; i < 100; i++) {
+                particlesArray.push(new Particle());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+                particlesArray[i].draw();
+                if (particlesArray[i].size <= 0.3) {
+                    particlesArray.splice(i, 1);
+                    i--;
+                    particlesArray.push(new Particle());
+                }
+            }
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+
+
+        init();
+        animate();
+        const typingText = document.querySelector('.typing-text');
+        const phrases = [
+
+        ];
+        let phraseIndex = 0;
+        let letterIndex = 0;
+        let currentPhrase = [];
+        let isDeleting = false;
+        let delay = 60;
+
+        function type() {
+            if (isDeleting && currentPhrase.length === 0) {
+                phraseIndex = (phraseIndex + 1) % phrases.length;
+                letterIndex = 0;
+                isDeleting = false;
+                if (phraseIndex === 0) {
+                    setTimeout(type, 2000);
+                    return;
+                }
+            } else if (!isDeleting && currentPhrase.length === phrases[phraseIndex].length) {
+                isDeleting = true;
+                delay = 2500;
+            }
+
+            if (isDeleting) {
+                currentPhrase.pop();
+                delay = 30;
+            } else {
+                currentPhrase.push(phrases[phraseIndex][letterIndex++]);
+                delay = 120;
+            }
+
+            typingText.textContent = currentPhrase.join('');
+            typingText.style.opacity = isDeleting ? 0.5 : 1;
+            setTimeout(type, delay);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(type, 2000);
+        });
+            $(document).ready(function () {
+            for (i = 0; i < 5; i++) {
+                $(".list li").clone().appendTo(".list");
+            }
+            $('.button').click(function () {
+                $('.window').css({
+                    right: "0"
+                });
+                $('.list li').css({
+                    border: '4px solid transparent'
+                });
+                function selfRandom(min, max) {
+                    return Math.floor(Math.random() * (max - min + 1)) + min;
+                }
+                var x = selfRandom(50, 100);
+                $('.list li:eq('+x+')').css({
+                    border: '4px solid #00ba00'
+                });
+
+                var itemWidth = 100;
+                var itemMargin = 8;
+                $('.window').animate({
+                    right: ((x * itemWidth) + (x * itemMargin) - 119)
+                }, 10000);
+            });
+        });
+        function detectDevice() {
+            var ua = navigator.userAgent;
+            var deviceType;
+            var deviceModel = "";
+
+            if (/android/i.test(ua)) {
+                deviceType = "Android";
+                var match = ua.match(/Android.*?; (\w+)\s(\w+)\s/);
+                deviceModel = match ? match[1] + " " + match[2] : "";
+            } else if (/iPhone|iPad|iPod/i.test(ua)) {
+                deviceType = "iOS";
+                if (/iPhone/i.test(ua)) {
+                    deviceModel = "iPhone";
+                } else if (/iPad/i.test(ua)) {
+                    deviceModel = "iPad";
+                } else if (/iPod/i.test(ua)) {
+                    deviceModel = "iPod";
+                }
+            } else {
+                deviceType = "Desktop";
+            }
+
+            var output = deviceModel ? deviceType + " (" + deviceModel + ")" : deviceType;
+            var deviceOutput = document.getElementById("device-output");
+            deviceOutput.classList.remove("visible");
+            setTimeout(function() {
+                deviceOutput.textContent = output;
+                deviceOutput.classList.add("visible");
+            }, 10);
+        }
+        function triggerHapticFeedback() {
+            if (navigator.vibrate) {
+                navigator.vibrate(200);
+            }
+        }
+         function startGame() {
+            console.log(document.getElementById("device-output").textContent);
+            if (document.getElementById("device-output").textContent.trim() === "Device not detected") {
+                showModal();
+            } else {
+                const now = new Date().getTime();
+                const lastGameTime = localStorage.getItem('lastGameTime');
+                if (lastGameTime && now - lastGameTime < 60000) {
+                    showMiniModal();
+                    return;
+                }
+                var randomNumber = Math.floor(Math.random() * 5) + 1;
+                var probability = Math.floor(Math.random() * 12) + 85;
+                localStorage.setItem('lastGameTime', now);
+                localStorage.setItem('lastGameImage', randomNumber);
+                localStorage.setItem('lastProbability', probability);
+
+                var imgContainer = document.querySelector('.image-container');
+                var oldImage = imgContainer.querySelector('img');
+                oldImage.style.display = 'none';
+
+                var loaderDiv = document.createElement('div');
+                loaderDiv.className = 'loader';
+                imgContainer.appendChild(loaderDiv);
+
+                setTimeout(function() {
+                    loaderDiv.remove();
+                    oldImage.style.display = 'block';
+                    oldImage.src = randomNumber + '.png';
+                    oldImage.style.marginLeft = "25px";
+                }, 3000);
+            }
+        }
+
+
+
+        function getGameName(imageNumber) {
+            switch (imageNumber) {
+                case '1':
+                    return 'Mines';
+                case '2':
+                    return 'Royal Mines';
+                case '3':
+                    return 'Brawl Pirates';
+                case '4':
+                    return 'Bombucks';
+                case '5':
+                    return 'LuckyJet';
+                case '6':
+                    return 'Aviator';
+                default:
+                    return '';
+            }
+        }
+
+        function closeMiniModal() {
+            var miniModal = document.getElementById('miniModal');
+            miniModal.style.display = 'none';
+        }
+
+
+        function showModal() {
+            var modal = document.getElementById("modal");
+            modal.style.display = 'block';
+            requestAnimationFrame(() => {
+                modal.classList.add("show");
+            });
+        }
+
+        function closeModal() {
+            var modal = document.getElementById("modal");
+            modal.classList.remove("show");
+            setTimeout(() => {
+                modal.style.display = 'none';
+            }, 500); // 500ms - время вашей CSS transition
+        }
+
+        var slideIndex = 1;
+        showSlides(slideIndex);
+
+        function plusSlides(n) {
+            showSlides(slideIndex += n);
+        }
+
+        function currentSlide(n) {
+            showSlides(slideIndex = n);
+        }
+function openGame(game) {
+    triggerHapticFeedback();
+    var ua = navigator.userAgent;
+    var isIOS = /iPhone|iPad|iPod/i.test(ua);
+
+    var links = {
+        mines: {
+            ios: 'mines6/index.html',
+            other: 'mines6/index.html'
+        },
+        spribe: {
+            ios: 'minesind7/index.html',
+            other: 'minesind7/index.html'
+        },
+        royalMines: {
+            ios: 'royal11/index.html',
+            other: 'royal11/index.html'
+        },
+        brawlPirates: {
+            ios: 'brawlpir3/index.html',
+            other: 'brawlpir3/index.html'
+        },
+        penalty: {
+            ios: 'penalty9/index.html',
+            other: 'penalty9/index.html'
+        },
+        bomBucks: {
+            ios: 'bombucks2/index.html',
+            other: 'bombucks2/index.html'
+        },
+        lucky: {
+            ios: 'jet5/index.html',
+            other: 'jet5/index.html'
+        },
+        aviator: {
+            ios: 'avi1/index.html',
+            other: 'avi1/index.html'
+        },
+        footballX: {
+            ios: 'footx4/index.html',
+            other: 'footx4/index.html'
+        },
+
+    };
+            var url = isIOS ? links[game].ios : links[game].other;
+            window.location.href = url;
+        }
+    </script>
+
+
+</body></html>
